@@ -4,6 +4,6 @@ Ej: poner ?person=<script>alert('XSS')</script> en la url, si usamos {{!! $perso
     se ejecutaría el script, pero con {{ $person }} se mostraría como texto sin ejecutar el script
 --}}
 <x-layout title="Welcome">
-    <h1>Hello World!</h1>
+    <h1>Welcome Page</h1>
     <p>{{ $greeting }}, {{ $person }}!</p>
 </x-layout>

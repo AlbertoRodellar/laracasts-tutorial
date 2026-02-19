@@ -1,5 +1,7 @@
 {{-- Blade directives: @if, @foreach, @forelse, @empty, @endforelse...
 Hay tambien para usuarios como @auth, @guest, @admin, @can, etc... --}}
+<x-layout title="Tasks">
+    <p>Dump tasks:</p>
     @dump($tasks)
 
     @if (count($tasks))
@@ -15,4 +17,5 @@ Hay tambien para usuarios como @auth, @guest, @admin, @can, etc... --}}
     @empty
         <p>There are no active tasks</p>
     @endforelse
+    
 </x-layout>

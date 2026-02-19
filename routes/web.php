@@ -27,3 +27,25 @@ Route::get('/tasks', function () {
         ]
     ]);
 });
+
+
+Route::get('/ideas', function () {
+    $ideas = session('ideas', []);
+    return view('ideas', [
+        'ideas' => $ideas
+    ]);
+});
+
+Route::post('/ideas', function () {
+    $idea = request('idea');
+
+    // session()->push() es un metodo de laravel para agregar un nuevo valor a un array en la session
+    session()->push('ideas', $idea);
+    return redirect('/ideas');
+});
+
+// Ruta temporal!! luego cambiar a delete
+Route::get('/delete-ideas', function () {
+    session()->forget('ideas');
+    return redirect('/ideas');
+});
