@@ -16,3 +16,14 @@ Route::get('/', function () {
         'person' => request('person', 'World')
     ]);
 });
+
+
+Route::get('/tasks', function () {
+    return view('tasks', [
+        'tasks' => [
+            'Go to the store',
+            'Go to the bank',
+            'Walk the dog',
+        ]
+    ]);
+});
