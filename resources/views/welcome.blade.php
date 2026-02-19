@@ -1,20 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laracast Tutorial</title>
-</head>
-
-<body>
-    <h1>Hello World!</h1>
-
-    <nav>
-        <a href="/">Home</a>
-        <a href="/about">About Us</a>
-        <a href="/contact">Contact Us</a>
-    </nav>
-</body>
-
-</html>                                                             
+{{-- Al welcome le hemos pasado dos variables $greeting y $person que viene de la url
+Tambien se puede usar {{!!  !!}} para mostrar html sin escapar, pero hay que tener cuidado con esto para evitar ataques XSS
+Ej: poner ?person=<script>alert('XSS')</script> en la url, si usamos {{!! $person !!}}
+    se ejecutaría el script, pero con {{ $person }} se mostraría como texto sin ejecutar el script
+--}}
+<x-layout title="Welcome">
+    <h1>Welcome Page</h1>
+    <p>{{ $greeting }}, {{ $person }}!</p>
+</x-layout>
