@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Idea;
 
 
 // En vez de route get return view se puede hacer con una sola linea usando Route::view
@@ -48,4 +49,67 @@ Route::post('/ideas', function () {
 Route::get('/delete-ideas', function () {
     session()->forget('ideas');
     return redirect('/ideas');
+});
+
+
+// index
+Route::get('/ideas-db', function () {
+    // $ideas = Idea::all();
+    // $ideas = Idea::where('state', 'completed')->get();
+
+    // Esta query es para filtrar las ideas por estado en la url ?state=completed por ejemplo, se movera a un controlador luego
+    $ideas = Idea::query()
+        ->when(request('state'), function ($query, $state) {
+            $query->where('state', $state);
+        })
+        ->get();
+    return view('ideas.index', [
+        'ideas' => $ideas
+    ]);
+});
+
+// show
+// Route model binding, se usa para inyectar un modelo directamente en la ruta,
+// Laravel se encarga de buscar el modelo por su id y pasarlo a la funcion, si no lo encuentra lanza un error 404
+// Se han de machear si o si el /ideas-db/{idea} con el Idea $idea
+Route::get('/ideas-db/{idea}', function (Idea $idea) {
+    return view('ideas.show', [
+        'idea' => $idea
+    ]);
+});
+
+
+// store
+Route::post('/ideas-db', function () {
+    $idea = request('idea');
+
+    Idea::create([
+        'description' => request('description'),
+        'state' => 'completed'
+    ]);
+
+    return redirect('/ideas-db');
+});
+
+// edit
+Route::get('/ideas-db/{idea}/edit', function (Idea $idea) {
+    return view('ideas.edit', [
+        'idea' => $idea
+    ]);
+});
+
+// update
+Route::patch('/ideas-db/{idea}', function (Idea $idea) {
+    $idea->update([
+        'description' => request('description'),
+    ]);
+
+    return redirect("/ideas-db/{$idea->id}");
+});
+
+
+// destroy
+Route::delete('/ideas-db/{idea}', function (Idea $idea) {
+    $idea->delete();
+    return redirect('/ideas-db');
 });
