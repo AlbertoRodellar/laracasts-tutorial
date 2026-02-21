@@ -51,7 +51,9 @@ Route::get('/delete-ideas', function () {
     return redirect('/ideas');
 });
 
-Route::get('/ideas-database', function () {
+
+// index
+Route::get('/ideas-db', function () {
     // $ideas = Idea::all();
     // $ideas = Idea::where('state', 'completed')->get();
 
@@ -61,18 +63,53 @@ Route::get('/ideas-database', function () {
             $query->where('state', $state);
         })
         ->get();
-    return view('ideas2', [
+    return view('ideas.index', [
         'ideas' => $ideas
     ]);
 });
 
-Route::post('/ideas-database', function () {
+// show
+// Route model binding, se usa para inyectar un modelo directamente en la ruta,
+// Laravel se encarga de buscar el modelo por su id y pasarlo a la funcion, si no lo encuentra lanza un error 404
+// Se han de machear si o si el /ideas-db/{idea} con el Idea $idea
+Route::get('/ideas-db/{idea}', function (Idea $idea) {
+    return view('ideas.show', [
+        'idea' => $idea
+    ]);
+});
+
+
+// store
+Route::post('/ideas-db', function () {
     $idea = request('idea');
 
     Idea::create([
-        'description' => request('idea'),
+        'description' => request('description'),
         'state' => 'completed'
     ]);
 
-    return redirect('/ideas-database');
+    return redirect('/ideas-db');
+});
+
+// edit
+Route::get('/ideas-db/{idea}/edit', function (Idea $idea) {
+    return view('ideas.edit', [
+        'idea' => $idea
+    ]);
+});
+
+// update
+Route::patch('/ideas-db/{idea}', function (Idea $idea) {
+    $idea->update([
+        'description' => request('description'),
+    ]);
+
+    return redirect("/ideas-db/{$idea->id}");
+});
+
+
+// destroy
+Route::delete('/ideas-db/{idea}', function (Idea $idea) {
+    $idea->delete();
+    return redirect('/ideas-db');
 });

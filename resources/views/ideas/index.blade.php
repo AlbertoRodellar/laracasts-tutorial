@@ -1,11 +1,11 @@
 {{-- Importante no olvidar el @csrf para evitar errores de seguridad --}}
-<x-layout title="Ideas Database">
-    <form method="POST" action="/ideas-database">
+<x-layout title="Ideas Index">
+    <form method="POST" action="/ideas-db">
         @csrf
         <div class="col-span-full">
-            <label for="idea" class="block text-sm/6 font-medium text-white">New Idea</label>
+            <label for="description" class="block text-sm/6 font-medium text-white">New Idea</label>
             <div class="mt-2">
-                <textarea id="idea" name="idea" rows="3"
+                <textarea id="description" name="description" rows="3"
                     class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"></textarea>
             </div>
             <p class="mt-3 text-sm/6 text-gray-400">Have an idea you'd like to share?</p>
@@ -22,7 +22,11 @@
             <h2 class="font-bold">Your Ideas:</h2>
             <ul class="mt-6">
                 @foreach ($ideas as $idea)
-                    <li class="text-small">{{ $idea->description }}</li>
+                    <div class="flex items-center justify-between outline-1 outline-white/10 p-4 rounded-md">
+                        <li class="text-small">{{ $idea->description }}</li>
+                        <a href="/ideas-db/{{ $idea->id }}/edit"
+                            class="text-indigo-400 hover:text-indigo-300">Edit</a>
+                    </div>
                 @endforeach
             </ul>
         </div>
