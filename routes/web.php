@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Idea;
 
 
 // En vez de route get return view se puede hacer con una sola linea usando Route::view
@@ -48,4 +49,30 @@ Route::post('/ideas', function () {
 Route::get('/delete-ideas', function () {
     session()->forget('ideas');
     return redirect('/ideas');
+});
+
+Route::get('/ideas-database', function () {
+    // $ideas = Idea::all();
+    // $ideas = Idea::where('state', 'completed')->get();
+
+    // Esta query es para filtrar las ideas por estado en la url ?state=completed por ejemplo, se movera a un controlador luego
+    $ideas = Idea::query()
+        ->when(request('state'), function ($query, $state) {
+            $query->where('state', $state);
+        })
+        ->get();
+    return view('ideas2', [
+        'ideas' => $ideas
+    ]);
+});
+
+Route::post('/ideas-database', function () {
+    $idea = request('idea');
+
+    Idea::create([
+        'description' => request('idea'),
+        'state' => 'completed'
+    ]);
+
+    return redirect('/ideas-database');
 });

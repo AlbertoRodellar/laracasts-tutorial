@@ -47,6 +47,7 @@
         <a href="/contact">Contact Us</a>
         <a href="/tasks">Tasks</a>
         <a href="/ideas">Ideas</a>
+        <a href="/ideas-database">Ideas Database</a>
     </nav>
     <main>
         {{ $slot }}
