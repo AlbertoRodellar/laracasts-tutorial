@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\IdeaController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Idea;
 
@@ -51,65 +52,17 @@ Route::get('/delete-ideas', function () {
     return redirect('/ideas');
 });
 
+//!CRUD DATABASE
+// Rutas especificas antes de las dinamicas, si no /create daria 404 porque entraria en la ruta dinamica de show /ideas-db/{idea}
+// y no encontraria el modelo con ese id
+Route::get('/ideas-db', [IdeaController::class, 'index']);
+Route::get('/ideas-db/create', [IdeaController::class, 'create']);
+Route::post('/ideas-db', [IdeaController::class, 'store']);
+Route::get('/ideas-db/{idea}', [IdeaController::class, 'show']);
+Route::get('/ideas-db/{idea}/edit', [IdeaController::class, 'edit']);
+Route::patch('/ideas-db/{idea}', [IdeaController::class, 'update']);
+Route::delete('/ideas-db/{idea}', [IdeaController::class, 'destroy']);
 
-// index
-Route::get('/ideas-db', function () {
-    // $ideas = Idea::all();
-    // $ideas = Idea::where('state', 'completed')->get();
-
-    // Esta query es para filtrar las ideas por estado en la url ?state=completed por ejemplo, se movera a un controlador luego
-    $ideas = Idea::query()
-        ->when(request('state'), function ($query, $state) {
-            $query->where('state', $state);
-        })
-        ->get();
-    return view('ideas.index', [
-        'ideas' => $ideas
-    ]);
-});
-
-// show
-// Route model binding, se usa para inyectar un modelo directamente en la ruta,
-// Laravel se encarga de buscar el modelo por su id y pasarlo a la funcion, si no lo encuentra lanza un error 404
-// Se han de machear si o si el /ideas-db/{idea} con el Idea $idea
-Route::get('/ideas-db/{idea}', function (Idea $idea) {
-    return view('ideas.show', [
-        'idea' => $idea
-    ]);
-});
-
-
-// store
-Route::post('/ideas-db', function () {
-    $idea = request('idea');
-
-    Idea::create([
-        'description' => request('description'),
-        'state' => 'completed'
-    ]);
-
-    return redirect('/ideas-db');
-});
-
-// edit
-Route::get('/ideas-db/{idea}/edit', function (Idea $idea) {
-    return view('ideas.edit', [
-        'idea' => $idea
-    ]);
-});
-
-// update
-Route::patch('/ideas-db/{idea}', function (Idea $idea) {
-    $idea->update([
-        'description' => request('description'),
-    ]);
-
-    return redirect("/ideas-db/{$idea->id}");
-});
-
-
-// destroy
-Route::delete('/ideas-db/{idea}', function (Idea $idea) {
-    $idea->delete();
-    return redirect('/ideas-db');
-});
+// Route::resource es una forma de generar todas las rutas de un CRUD de una sola vez:
+// se le pasa el nombre de la ruta y el controlador, y laravel se encarga de generar las rutas correspondientes a cada metodo del controlador
+// Route::resource('ideas-db', IdeaController::class);

@@ -1,26 +1,8 @@
-{{-- Importante no olvidar el @csrf para evitar errores de seguridad --}}
 <x-layout title="Ideas Index">
-    <form method="POST" action="/ideas-db">
-        @csrf
-        <div class="col-span-full">
-            <label for="description" class="block text-sm/6 font-medium text-white">New Idea</label>
-            <div class="mt-2">
-                <textarea id="description" name="description" rows="3"
-                    class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"></textarea>
-            </div>
-            <p class="mt-3 text-sm/6 text-gray-400">Have an idea you'd like to share?</p>
-        </div>
-
-        <div class="mt-6 flex items-center  gap-x-6">
-            <button type="submit"
-                class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Save</button>
-        </div>
-    </form>
-
     @if ($ideas->count())
         <div class="mt-6 text-white">
             <h2 class="font-bold">Your Ideas:</h2>
-            <ul class="mt-6">
+            <ul class="mt-6 mb-6">
                 @foreach ($ideas as $idea)
                     <div class="flex items-center justify-between outline-1 outline-white/10 p-4 rounded-md">
                         <li class="text-small">{{ $idea->description }}</li>
@@ -30,5 +12,8 @@
                 @endforeach
             </ul>
         </div>
+    @else
+        <p class="mt-6 text-sm/6 text-gray-400">No ideas yet. Why not create one?</p>
     @endif
+    <a href="/ideas-db/create" class="text-indigo-400 hover:text-indigo-300 underline">Create a new idea</a>
 </x-layout>

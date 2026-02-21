@@ -18,9 +18,9 @@ Cubre los pilares de Laravel: definición de rutas, vistas con Blade y layouts r
 - [x] Pass Data to Views
 - [x] Blade Directives
 - [x] Forms
-- [ ] Databases, Migrations, and Eloquent
-- [ ] HTTP Requests and REST
-- [ ] Controllers
+- [x] Databases, Migrations, and Eloquent
+- [x] HTTP Requests and REST
+- [x] Controllers
 - [ ] Request Validation
 - [ ] Form Request Classes
 - [ ] A Brief DaisyUI Detour
