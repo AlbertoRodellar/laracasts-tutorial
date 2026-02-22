@@ -1,6 +1,10 @@
 <x-layout title="Ideas Show">
-    <div class="mt-6 text-white">
-        <h2 class="font-bold">Your Idea:</h2>
-        <p class="text-small">{{ $idea->description }}</p>
+    <div class="card bg-neutral p-6">
+        <div>
+            {{ $idea->description }}
+        </div>
+        <a href="/ideas-db/{{ $idea->id }}/edit"
+            class="btn btn-primary w-fit mt-6">Edit
+            Idea</a>
     </div>
 </x-layout>
