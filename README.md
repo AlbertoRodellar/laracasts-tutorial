@@ -23,7 +23,7 @@ Cubre los pilares de Laravel: definición de rutas, vistas con Blade y layouts r
 - [x] Controllers
 - [x] Request Validation
 - [x] Form Request Classes
-- [ ] A Brief DaisyUI Detour
+- [x] A Brief DaisyUI Detour
 
 ### 2. Authentication and Authorization (0/5)
 
